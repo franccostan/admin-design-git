@@ -7,6 +7,7 @@ import SignInScreen from './pages/admin-sign-in/admin-sign-in';
 import ForgotPasswordScreen from './pages/admin-forgot-password/admin-forgot-password';
 import ForgotPasswordVerificationScreen from './pages/admin-forgot-password-verification/admin-forgot-password-verification';
 import ChangePasswordScreen from './pages/admin-change-password/admin-change-password';
+import AdminInformationScreen from './pages/admin-information/admin-information';
 
 const AppRouter: React.FC = () => {
     return (
@@ -17,6 +18,7 @@ const AppRouter: React.FC = () => {
           <Route path="/forgotPassVerify" element={<ForgotPasswordVerificationScreen/>} />
           <Route path="/changePass" element={<ChangePasswordScreen/>} />
           <Route path="/dashboard" element={<DashBoardScreen/>} />
+          <Route path="/admin-information" element={<AdminInformationScreen/>} />
         </Routes>
       </Router>
     );
