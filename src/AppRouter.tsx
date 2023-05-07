@@ -8,6 +8,9 @@ import ForgotPasswordScreen from './pages/admin-forgot-password/admin-forgot-pas
 import ForgotPasswordVerificationScreen from './pages/admin-forgot-password-verification/admin-forgot-password-verification';
 import ChangePasswordScreen from './pages/admin-change-password/admin-change-password';
 import AdminInformationScreen from './pages/admin-information/admin-information';
+import AdminScreen from './pages/admin-screen/admin-screen';
+import AdminAddScreen from './pages/admin-add-screen/admin-add-screen';
+import AdminApplicantList from './pages/admin-applicant-list/admin-applicant-list';
 
 const AppRouter: React.FC = () => {
     return (
@@ -18,7 +21,10 @@ const AppRouter: React.FC = () => {
           <Route path="/forgotPassVerify" element={<ForgotPasswordVerificationScreen/>} />
           <Route path="/changePass" element={<ChangePasswordScreen/>} />
           <Route path="/dashboard" element={<DashBoardScreen/>} />
-          <Route path="/admin-information" element={<AdminInformationScreen/>} />
+          <Route path="/adminInfo" element={<AdminInformationScreen/>} />
+          <Route path="/adminScreen" element={<AdminScreen/>} />
+          <Route path="/adminAdd" element={<AdminAddScreen/>} />
+          <Route path="/applicantList" element={<AdminApplicantList/>} />
         </Routes>
       </Router>
     );

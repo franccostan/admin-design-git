@@ -37,27 +37,14 @@
     }
   }
   
-  .signin-form-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
   
   .signin-form-box {
     background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 30px;
     width: 490px;
-    height: 380px;
+    height: 490px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   }
   
   /* Added styles for the red rectangle */
@@ -71,7 +58,24 @@
     height: 30px;
     background-color: #d83333;
   }
-
+  
+  .signin-form-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: -30px;
+    margin-bottom: 30px;
+    top: 1px;
+  }
+  
+  .signin-form-subtitle{
+    font-family: 'Poppins';
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 30px;
+  }
+  
+  /* Added styles for the line under the title */
   .signin-form-title::after {
     content: '';
     position: absolute;
@@ -83,36 +87,11 @@
     background-color: #ccc;
   }
   
-  .signin-form-title {
-    font-family: 'Poppins', sans-serif;
-    font-size: 24px;
-    font-weight: 600;
-    margin-top: -30px;
-    margin-bottom: 30px;
-    text-align: center;
-    top: 1px;
-    position: relative;
-  }
-  
-  .signin-form-subtitle{
-    font-family: 'Poppins';
-    font-size: 14px;
-    font-weight: 400;
-    margin-bottom: -20px;
-  }
-  
   .form-group-box{
     text-align: left;
     margin-top: 50px;
   }
-  
-  .form-forgot-password {
-    font-family: 'Inter';
-    font-size: 11px;
-    margin-bottom: 10px;
-    color: #d83333;
-    font-weight: bold;
-  }
+
   
   .form-group {
     font-family: 'Inter';
