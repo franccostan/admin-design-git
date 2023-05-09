@@ -12,10 +12,10 @@ import {Box,
   AppBar, Toolbar,ListItem, ListItemText, Typography, Grid, IconButton } from '@material-ui/core';
 import Stack from '@mui/system/Stack';
 import { styled } from '@mui/system';
-import { Edit, Delete } from '@material-ui/icons';
+import { Edit, Delete } from '@mui/icons-material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import logo from '../../alliance-logo.png';
-
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -87,6 +87,16 @@ const AdminInformationScreen = () => {
     setStatus(event.target.value);
   };
 
+  const navigate = useNavigate();
+
+  const handleDashboard = () => { // redirect to dashboard page
+    navigate('/dashboard');
+  };
+
+  const handleApplicantList = () => { // redirect to Applicant list
+    navigate('/applicantList');
+  };
+
   return (
 
     // AppBar/TopBar
@@ -96,12 +106,12 @@ const AdminInformationScreen = () => {
           <img src={logo} alt="Alliance Software Inc" className={classes.logo} />
           <Grid style={{ display: 'flex', justifyContent: 'center' }} container spacing={2} alignItems="center">
             <Grid item className={classes.listItem}>
-              <ListItem button onClick={() => console.log('Item clicked')}>
+              <ListItem button onClick={handleDashboard}>
                 <ListItemText primary="Dashboard" />
               </ListItem>
             </Grid>
             <Grid item className={classes.listItem}>
-              <ListItem button onClick={() => console.log('Item clicked')}>
+              <ListItem button onClick={handleApplicantList}>
                 <ListItemText primary="Applicants" />
               </ListItem>
             </Grid>

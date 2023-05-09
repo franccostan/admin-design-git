@@ -9,6 +9,9 @@ import ForgotPasswordVerificationScreen from './pages/admin-forgot-password-veri
 import ChangePasswordScreen from './pages/admin-change-password/admin-change-password';
 import AdminInformationScreen from './pages/admin-information/admin-information';
 import EditAdminInformationScreen from './pages/edit-admin-information/edit-admin-information';
+import AdminScreen from './pages/admin-screen/admin-screen';
+import AdminAddScreen from './pages/admin-add-screen/admin-add-screen';
+import AdminApplicantList from './pages/admin-applicant-list/admin-applicant-list';
 
 const AppRouter: React.FC = () => {
     return (
@@ -21,6 +24,10 @@ const AppRouter: React.FC = () => {
           <Route path="/dashboard" element={<DashBoardScreen/>} />
           <Route path="/admin-information" element={<AdminInformationScreen/>} />
           <Route path="/edit-admin-information" element={<EditAdminInformationScreen/>} />
+          <Route path="/adminInfo" element={<AdminInformationScreen/>} />
+          <Route path="/adminScreen" element={<AdminScreen/>} />
+          <Route path="/adminAdd" element={<AdminAddScreen/>} />
+          <Route path="/applicantList" element={<AdminApplicantList/>} />
         </Routes>
       </Router>
     );

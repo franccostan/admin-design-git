@@ -1,10 +1,9 @@
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import { AppBar, Toolbar,ListItem, ListItemText, Typography, Grid, IconButton } from '@material-ui/core';
+import { AppBar, Toolbar, ListItem, ListItemText, Typography, Grid, IconButton } from '@material-ui/core';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import logo from '../../alliance-logo.png';
 import { useNavigate } from 'react-router-dom';
-import BarGraph from './BarGraph';
-import RoundedBox from './RoundedBox';
+import AdminList from './components/AdminList';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,15 +40,19 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
       color: 'black',
     },
+    button: {
+        width: '100px',
+        marginLeft: '420px',
+    }
   })
 );
 
-const DashboardBoardScreen = () => {
+const AdminScreen = () => {
   const classes = useStyles();
 
   const navigate = useNavigate();
 
-  const handleAdminInfo = () => { // redirect to admin screen page
+  const handleAdminInfo = () => { // redirect to admin information page
     navigate('/adminScreen');
   };
 
@@ -57,7 +60,11 @@ const DashboardBoardScreen = () => {
     navigate('/dashboard');
   };
 
-  const handleApplicant = () => { // redirect to applicant info page
+  const handleAddAdmin = () => { // redirect to Admin Add page
+    navigate('/adminAdd');
+  };
+
+  const handleApplicantList = () => { // redirect to Appliant List page
     navigate('/applicantList');
   };
 
@@ -69,17 +76,17 @@ const DashboardBoardScreen = () => {
           <Grid style={{ display: 'flex', justifyContent: 'center' }} container spacing={2} alignItems="center">
             <Grid item className={classes.listItem}>
               <ListItem button onClick={handleDashboard}>
-                <ListItemText style={{color: 'red', textDecoration: 'underline'}} primary="Dashboard" />
+                <ListItemText primary="Dashboard" />
               </ListItem>
             </Grid>
             <Grid item className={classes.listItem}>
-              <ListItem button onClick={handleApplicant}>
+              <ListItem button onClick={handleApplicantList}>
                 <ListItemText primary="Applicants" />
               </ListItem>
             </Grid>
             <Grid item className={classes.listItem}>
               <ListItem button onClick={handleAdminInfo}>
-                <ListItemText primary="Admin" />
+                <ListItemText style={{color: 'red', textDecoration: 'underline'}} primary="Admin" />
               </ListItem>
             </Grid>
           </Grid>
@@ -91,19 +98,17 @@ const DashboardBoardScreen = () => {
           </IconButton>    
         </Toolbar>
       </AppBar>
-      <div>
-        <h1 style={{ marginTop: '130px', display: 'flex', marginLeft: '185px' , fontSize: '30px'}} >Summary</h1>
-        <div style={{ marginTop: '20px', display: 'flex', marginLeft: '185px' }}>
-          <RoundedBox title="NEW APPLIANTS" value={10} />
-          <RoundedBox title="TOTAL APPLIANTS" value={87} />
-          <RoundedBox title="ADMINS" value={23} />
+      <div style={{marginTop: '140px', marginLeft: '275px'}}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <h1 style={{ marginBottom: '20px', fontSize: '30px' }}>Admin List</h1>
+          <button className={classes.button} type="submit" onClick={handleAddAdmin}>Add</button>
         </div>
-        <div style={{ marginTop: '100px', display: 'flex', marginLeft: '185px' }}>
-          <BarGraph />
+        <div style={{ marginTop: '20px'}}>
+          <AdminList/>
         </div>
       </div>
     </div>
   );
 };
 
-export default DashboardBoardScreen;
+export default AdminScreen;
