@@ -12,10 +12,10 @@ import {Box,
   AppBar, Toolbar,ListItem, ListItemText, Typography, Grid, IconButton } from '@material-ui/core';
 import Stack from '@mui/system/Stack';
 import { styled } from '@mui/system';
-import { Edit, Delete } from '@mui/icons-material';
+import { Edit, Delete } from '@material-ui/icons';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import logo from '../../alliance-logo.png';
-import { useNavigate } from 'react-router-dom';
+
 
 const drawerWidth = 240;
 
@@ -87,16 +87,6 @@ const AdminInformationScreen = () => {
     setStatus(event.target.value);
   };
 
-  const navigate = useNavigate();
-
-  const handleDashboard = () => { // redirect to dashboard page
-    navigate('/dashboard');
-  };
-
-  const handleApplicantList = () => { // redirect to Applicant list
-    navigate('/applicantList');
-  };
-
   return (
 
     // AppBar/TopBar
@@ -106,12 +96,12 @@ const AdminInformationScreen = () => {
           <img src={logo} alt="Alliance Software Inc" className={classes.logo} />
           <Grid style={{ display: 'flex', justifyContent: 'center' }} container spacing={2} alignItems="center">
             <Grid item className={classes.listItem}>
-              <ListItem button onClick={handleDashboard}>
+              <ListItem button onClick={() => console.log('Item clicked')}>
                 <ListItemText primary="Dashboard" />
               </ListItem>
             </Grid>
             <Grid item className={classes.listItem}>
-              <ListItem button onClick={handleApplicantList}>
+              <ListItem button onClick={() => console.log('Item clicked')}>
                 <ListItemText primary="Applicants" />
               </ListItem>
             </Grid>
@@ -134,43 +124,38 @@ const AdminInformationScreen = () => {
       {/* Information Section */}
       <Grid container justifyContent="center">
         <Grid item>
-            <Card style={{ width:'800px', marginTop: 75, padding:'50px'}}>
+            <Card style={{ width:'800px', height:'500px',marginTop: 75, padding:'50px'}}>
               <CardContent>
 
             {/* TITLE */}
                 <Grid container alignItems="center" justifyContent="space-between">
                   <Grid item>
                     <Typography variant='h5'>
-                      Admin information
+                      Edit Admin information
                     </Typography> 
                   </Grid> 
-                  <Grid item>
+                  {/* <Grid item>
                     <ButtonBase style={{ width: '30px' }} disableRipple>
                       <Edit />
                     </ButtonBase>
                     <ButtonBase style={{ width: '30px' }} disableRipple>
                       <Delete />
                     </ButtonBase>
-                  </Grid>
+                  </Grid> */}
                 </Grid>
                 <Divider/> 
             {/* END TITLE */}
 
                 {/* FORM */}
                   <form className={classes.root} noValidate autoComplete="off">
-                    <Grid container>
-                      {/* First COLUMN */}
-                      <Grid item xs={6} style={{ display: 'flex', justifyContent: 'flex-start', marginTop:'20px'}}>
-                        <Stack spacing={1}>
+    
+                        <Stack spacing={1} style={{ display: 'flex', justifyContent: 'flex-start', marginTop:'20px'}}>
                           {/* First Name */}
                           <Item>
                             <TextField
                             id="outlined-read-only-input"
                             label="First Name"
                             defaultValue="Hello World"
-                            InputProps={{
-                              readOnly: true,
-                            }}
                             variant="outlined"
                             style={{ width: "350px" }}
                             /></Item>
@@ -180,9 +165,6 @@ const AdminInformationScreen = () => {
                             id="outlined-read-only-input"
                             label="Last Name"
                             defaultValue="Hello World"
-                            InputProps={{
-                              readOnly: true,
-                            }}
                             variant="outlined"
                             style={{ width: "350px" }}
                             /></Item>
@@ -192,9 +174,6 @@ const AdminInformationScreen = () => {
                             id="outlined-read-only-input"
                             label="Email"
                             defaultValue="Hello World"
-                            InputProps={{
-                              readOnly: true,
-                            }}
                             variant="outlined"
                             style={{ width: "350px" }}
                             /></Item>
@@ -204,49 +183,24 @@ const AdminInformationScreen = () => {
                             id="outlined-read-only-input"
                             label="Password"
                             defaultValue="Hello World"
-                            InputProps={{
-                              readOnly: true,
-                            }}
                             variant="outlined"
                             style={{ width: "350px" }}
                             /></Item>
+                      
                         </Stack>
-                      </Grid>
-                      {/* SECOND COLUMN */}
-                      <Grid item xs={6} style={{ display: 'flex', justifyContent: 'flex-start', marginTop:'20px'}}>
-                        <Stack spacing={1}>
-                          {/* STATUS */}
-                          <Item>
-                            <TextField
-                              id="outlined-select-currency-native"
-                              select
-                              label="Status"
-                              value={status}
-                              onChange={handleChange}
-                              SelectProps={{
-                                native: true,
-                              }}
-                              // helperText="Please select your currency"
-                              variant="outlined"
-                              style={{ width: "350px"}}
-                              >
-                              {statuses.map((option) => (
-                                <option key={option.value} value={option.value}>
-                                  {option.label}
-                                </option>
-                              ))}
-                              </TextField>
-                          </Item>
-                          {/* BUTTON */}
-                          <Item>
-                            <button type="submit" style={{ width: "350px" }}>Update Status</button>
-                          </Item>
-                        </Stack>
-                      </Grid>
-                    </Grid>
-                  </form>
-                  {/* END FORM */}
 
+                    
+                  </form>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                  {/* END FORM */}
+                  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <button type="submit" style={{ width: "200px", marginLeft: "10px" }}>Save</button>
+                    <button type="submit" style={{ width: "200px" }}>Back</button>
+                </div>
               </CardContent>
           </Card>
       </Grid>
