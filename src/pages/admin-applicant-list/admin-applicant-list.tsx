@@ -3,7 +3,7 @@ import { AppBar, Toolbar, ListItem, ListItemText, Typography, Grid, IconButton }
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import logo from '../../alliance-logo.png';
 import { useNavigate } from 'react-router-dom';
-import ApplicantList from './components/ApplicantList';
+import StickyHeadTable from './components/ApplicantList';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -90,12 +90,12 @@ const AdminApplicantList = () => {
           </IconButton>    
         </Toolbar>
       </AppBar>
-      <div style={{marginTop: '140px', marginLeft: '150px'}}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{marginTop: '140px', marginLeft: '150px', display: 'flex', flexDirection:'column'}}>
+        <div style={{ display: 'flex', alignItems: 'center'}}>
           <h1 style={{ marginBottom: '20px', fontSize: '30px' }}>Applicant List</h1>
         </div>
-        <div style={{ marginTop: '20px'}}>
-          <ApplicantList/>
+        <div style={{ marginTop: '20px', marginLeft: 'auto', marginRight:'auto', justifyContent:'center', alignItems:'center'}}>
+          <StickyHeadTable/>
         </div>
       </div>
     </div>

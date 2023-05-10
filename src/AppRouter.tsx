@@ -11,6 +11,7 @@ import AdminInformationScreen from './pages/admin-information/admin-information'
 import AdminScreen from './pages/admin-screen/admin-screen';
 import AdminAddScreen from './pages/admin-add-screen/admin-add-screen';
 import AdminApplicantList from './pages/admin-applicant-list/admin-applicant-list';
+import ApplicantDetails from './pages/admin-applicant-details/admin-applicant-details';
 
 const AppRouter: React.FC = () => {
     return (
@@ -25,6 +26,7 @@ const AppRouter: React.FC = () => {
           <Route path="/adminScreen" element={<AdminScreen/>} />
           <Route path="/adminAdd" element={<AdminAddScreen/>} />
           <Route path="/applicantList" element={<AdminApplicantList/>} />
+          <Route path="/applicantDetails/:id" element={<ApplicantDetails/>} />
         </Routes>
       </Router>
     );
