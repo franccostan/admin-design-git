@@ -1,5 +1,5 @@
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import { AppBar, Toolbar,ListItem, ListItemText, Typography, Grid, IconButton } from '@material-ui/core';
+import { AppBar, Toolbar,ListItem, ListItemText, Typography, Grid, IconButton} from '@material-ui/core';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import logo from '../../alliance-logo.png';
 import { useNavigate } from 'react-router-dom';
@@ -91,17 +91,32 @@ const DashboardBoardScreen = () => {
           </IconButton>    
         </Toolbar>
       </AppBar>
-      <div>
-        <h1 style={{ marginTop: '130px', display: 'flex', marginLeft: '185px' , fontSize: '30px'}} >Summary</h1>
-        <div style={{ marginTop: '20px', display: 'flex', marginLeft: '185px' }}>
-          <RoundedBox title="NEW APPLIANTS" value={10} />
-          <RoundedBox title="TOTAL APPLIANTS" value={87} />
-          <RoundedBox title="ADMINS" value={23} />
+
+      {/*  Content  */}
+      <Grid container justifyContent="center" style={{marginLeft: '20px'}}>
+        <div >
+          <h1 style={{ marginTop: '130px', display: 'flex', fontSize: '30px'}} >Summary</h1>
+          <Grid container spacing={1} style={{marginTop:'20px'}}>
+            <Grid item xs>
+              <RoundedBox title="NEW APPLIANTS" value={10} />
+            </Grid>
+            <Grid item xs>
+              <RoundedBox title="TOTAL APPLIANTS" value={87} />
+            </Grid>
+            <Grid item xs>
+              <RoundedBox title="ADMINS" value={23} />
+            </Grid>
+          </Grid>
+          {/* <div style={{ marginTop: '20px', display: 'flex' }}>
+            <RoundedBox title="NEW APPLIANTS" value={10} />
+             <RoundedBox title="TOTAL APPLIANTS" value={87} />
+            <RoundedBox title="ADMINS" value={23} />
+          </div> */}
+          <div style={{ marginTop: '100px', display: 'flex'}}>
+            <BarGraph />
+          </div>
         </div>
-        <div style={{ marginTop: '100px', display: 'flex', marginLeft: '185px' }}>
-          <BarGraph />
-        </div>
-      </div>
+      </Grid>
     </div>
   );
 };

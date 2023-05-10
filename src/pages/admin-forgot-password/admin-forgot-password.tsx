@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './admin-forgot-password.css';
 import { useNavigate } from 'react-router-dom';
-
+import { Button } from "@mui/material";
 interface SignInFormData {
   email: string;
   password: string;
@@ -48,7 +48,14 @@ const ForgotPasswordScreen = () => {
               onChange={handleFormChange}
             />
           </div>
-          <button type="submit">Proceed</button>
+          <Button
+              variant="contained"
+              color="error"
+              type= "submit"
+              style={{ width: 300 }}
+              >
+              Proceed
+            </Button>
         </form>
       </div>
     </div>

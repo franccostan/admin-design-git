@@ -17,6 +17,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import logo from '../../alliance-logo.png';
 import { useNavigate } from 'react-router-dom';
 
+
 const drawerWidth = 240;
 
 const statuses = [
@@ -162,19 +163,11 @@ const AdminInformationScreen = () => {
                       {/* First COLUMN */}
                       <Grid item xs={6} style={{ display: 'flex', justifyContent: 'flex-start', marginTop:'20px'}}>
                         <Stack spacing={1}>
-                          {/* First Name */}
-                          <Item>
-                            <TextField
-                            id="outlined-read-only-input"
-                            label="First Name"
-                            defaultValue="Hello World"
-                            InputProps={{
-                              readOnly: true,
-                            }}
-                            variant="outlined"
-                            style={{ width: "350px" }}
-                            /></Item>
-                            {/* Last Name */}
+                        
+                          {/* <Item>
+                          <label style={{textAlign: 'start'}}>First Name</label>
+                            <TextField variant="outlined" style={{ width: "350px" }}/></Item>
+                         
                           <Item>
                             <TextField
                             id="outlined-read-only-input"
@@ -186,7 +179,7 @@ const AdminInformationScreen = () => {
                             variant="outlined"
                             style={{ width: "350px" }}
                             /></Item>
-                            {/* Email */}
+                          
                           <Item>
                             <TextField
                             id="outlined-read-only-input"
@@ -198,7 +191,7 @@ const AdminInformationScreen = () => {
                             variant="outlined"
                             style={{ width: "350px" }}
                             /></Item>
-                            {/* Password */}
+                          
                           <Item>
                             <TextField
                             id="outlined-read-only-input"
@@ -209,13 +202,30 @@ const AdminInformationScreen = () => {
                             }}
                             variant="outlined"
                             style={{ width: "350px" }}
-                            /></Item>
+                            /></Item> */}
+                             <Item>
+                            <label style={{textAlign: 'start'}}>First Name</label>
+                            <TextField variant="outlined" InputProps={{readOnly: true,}} style={{ width: "350px" }} defaultValue="Hello World"/>
+                          </Item>
+                          <Item>
+                            <label style={{textAlign: 'start'}}>Last Name</label>
+                            <TextField variant="outlined" InputProps={{readOnly: true,}} style={{ width: "350px" }} defaultValue="Hello World"/>
+                          </Item>
+                          <Item>
+                            <label style={{textAlign: 'start'}}>Email</label>
+                            <TextField variant="outlined" InputProps={{readOnly: true,}} style={{ width: "350px" }} defaultValue="Hello World"/>
+                          </Item>
+                          <Item>
+                            <label style={{textAlign: 'start'}}>Password</label>
+                            <TextField variant="outlined"InputProps={{readOnly: true,}} style={{ width: "350px" }} defaultValue="Hello World"/>
+                          </Item>
+                          
                         </Stack>
                       </Grid>
                       {/* SECOND COLUMN */}
-                      <Grid item xs={6} style={{ display: 'flex', justifyContent: 'flex-start', marginTop:'20px'}}>
+                      {/* <Grid item xs={6} style={{ display: 'flex', justifyContent: 'flex-start', marginTop:'20px'}}>
                         <Stack spacing={1}>
-                          {/* STATUS */}
+                        
                           <Item>
                             <TextField
                               id="outlined-select-currency-native"
@@ -226,7 +236,7 @@ const AdminInformationScreen = () => {
                               SelectProps={{
                                 native: true,
                               }}
-                              // helperText="Please select your currency"
+                            
                               variant="outlined"
                               style={{ width: "350px"}}
                               >
@@ -237,13 +247,32 @@ const AdminInformationScreen = () => {
                               ))}
                               </TextField>
                           </Item>
-                          {/* BUTTON */}
+                        
                           <Item>
                             <button type="submit" style={{ width: "350px" }}>Update Status</button>
                           </Item>
                         </Stack>
-                      </Grid>
-                    </Grid>
+                      </Grid> */}
+                      
+                      {/* <Grid container justifyContent="flex-end" style={{marginTop:'60px'}}>
+                        <Grid item>
+      
+                            <Button
+                                    variant="contained"
+                                    color="error"
+                                    type= "submit"
+                                    style={{ width: 200, marginLeft: '10px'}}
+                                    >
+                                    Edit
+                            </Button>
+                          </Grid>
+                      </Grid>*/}
+                      
+                      </Grid> 
+                    
+                        
+                      
+                  
                   </form>
                   {/* END FORM */}
 

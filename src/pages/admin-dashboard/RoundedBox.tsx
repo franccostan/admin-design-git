@@ -21,7 +21,7 @@ const RoundedBox: React.FC<Props> = ({ title, value }) => {
         borderRadius: '10px', 
         display: 'inline-block',
         width: '250px',
-        height: '70px',
+        height: '100px',
         marginRight: '40px',
         textAlign: 'left',
       }}>
