@@ -73,6 +73,25 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: 'center',
       color: 'black',
     },
+    menuContainer: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      zIndex: 9998,
+      backgroundColor: 'rgba(0, 0, 0, 0.4)',
+      backdropFilter: 'blur(4px)', // Apply blur effect to the background
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    menu: {
+      backgroundColor: '#fff',
+      borderRadius: '4px',
+      boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)',
+      padding: '50px',
+    },
   })
 );
 
@@ -95,6 +114,12 @@ const AdminInformationScreen = () => {
 
   const handleApplicantList = () => { // redirect to Applicant list
     navigate('/applicantList');
+  };
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); //menu state variable
+
+  const toggleMenu = (event: React.MouseEvent<HTMLElement>) => { //menu anchor element:
+    setAnchorEl(event.currentTarget);
   };
 
   return (
@@ -148,9 +173,20 @@ const AdminInformationScreen = () => {
                     <ButtonBase style={{ width: '30px' }} disableRipple>
                       <Edit />
                     </ButtonBase>
-                    <ButtonBase style={{ width: '30px' }} disableRipple>
+                    <ButtonBase style={{ width: '30px' }} disableRipple onClick={toggleMenu}>
                       <Delete />
                     </ButtonBase>
+                    {anchorEl && ( //delete menu pop out
+                      <div className={classes.menuContainer}>
+                        <div className={classes.menu}>
+                          {/* Menu content goes here */}
+                          <Typography style={{marginBottom: '20px'}} variant='h5'>Delete Admin</Typography> 
+                          <Typography style={{fontSize: '20', marginBottom: '20px'}}>Are you sure you want to delete this admin?</Typography> 
+                          <Button style={{backgroundColor: '#d83333', color: 'white'}} >Delete</Button> {/*TODO add delete function*/}
+                          <br/><Button style={{marginTop: '5px', backgroundColor: '#e0e0e0', boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)'}} onClick={() => setAnchorEl(null)}>Cancel</Button>
+                        </div>
+                      </div>
+                    )}
                   </Grid>
                 </Grid>
                 <Divider/> 
