@@ -1,95 +1,169 @@
-import React, { useState } from 'react';
-import {makeStyles, IconButton, Menu, MenuItem } from '@material-ui/core';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import { format } from 'date-fns';
+import { getAdminList } from '../utils';
+import { Link } from 'react-router-dom';
 
 
-interface User {
-  name: string;
-  email: string;
-  dateJoined: string;
+interface Column {
+  id: 'no' | 'name' | 'username' | 'email' | 'phoneNumber';
+  label: string;
+  minWidth?: number;
+  align?: 'right';
+  format?: (value: number) => string;
 }
 
-const users: User[] = [
-  { name: 'John Doe', email: 'johndoe@example.com', dateJoined: '01/01/2022' },  
-  { name: 'Jane Smith', email: 'janesmith@example.com', dateJoined: '02/01/2022' },  
-  { name: 'Bob Johnson', email: 'bobjohnson@example.com', dateJoined: '03/01/2022' },
+const columns: readonly Column[] = [
+  { id: 'no', label: 'No.', minWidth: 75 },
+  { id: 'name', label: 'Name', minWidth: 170 },
+  { id: 'username', label: 'Username', minWidth: 170 },
+  { id: 'email', label: 'Email Address', minWidth: 170 },
+  { id: 'phoneNumber', label: 'Phone Number', minWidth: 150,},
 ];
 
-const useStyles = makeStyles({
-  iconButton: {
-    width: '30px',
-    height: '30px',
-    color: 'black',
-    background: 'none',
-    '&:hover': {
-      color: 'black',
-      background: 'none',
-    },
-  },
-});
+interface Data {
+  no: string;
+  name: string;
+  username: string,
+  email: string;
+  phoneNumber: string;
+  id: string
+}
 
-const AdminList: React.FC = () => {
-  const classes = useStyles();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [currentPage, setCurrentPage] = useState<number>(0);
-  const usersPerPage = 5;
-  const totalPages = Math.ceil(users.length / usersPerPage);
+function createData(
+  no: string,
+  name: string,
+  username: string,
+  email: string,
+  phoneNumber: string,
+  id: string
 
-  const navigate = useNavigate();
+): Data {
+  return { no, name, username, email, phoneNumber, id };
+}
 
-  const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+async function fetchAdminList({page} : {page : number}): Promise<Data[]> {
+  try {
+    const response = await getAdminList();
+    let number = 1;
+    return response.data.map((admin:any) => {
+      console.log("Admin:", admin);
+      return createData(
+        (number++).toString(),
+        `${admin.firstname} ${admin.lastname}`,
+        admin.username,
+        admin.email,
+        admin.phone,
+        admin.id,
+      )
+    });
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+}
+
+async function fetchListInfo({page} : {page : number}): Promise<{ pages: number, size: number }> {
+  try {
+    const response = await getAdminList();
+    return response.pagination;
+  } catch (error) {
+    console.log(error);
+    return { pages: 0, size: 0 };
+  }
+}
+
+
+export default function StickyHeadTable() {
+  const [rows, setRows] = useState<Data[]>([]);
+  const [pagination, setPagination] = useState<any>({}); 
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(15);
+  console.log(getAdminList());
+
+  async function fetchData(page: number) {
+    try {
+      console.log("Page:", page);
+      const data = await fetchAdminList({page});
+      const info = await fetchListInfo({page});
+      console.log("Data from new page:", data);
+      setRows([...data]);
+      setPagination(info);
+    } catch (error) {
+      console.log(error);
+      setRows([]);
+      setPagination({});
+    }
+  }
+  
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+    fetchData(newPage + 1);
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handlePreviousPage = () => {
-    setCurrentPage((prevPage) => prevPage - 1);
-  };
-
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
-
-  const handleEditAdmin = () => { // redirect to Admin Info page
-    navigate('/adminInfo');
-  };
-
+  useEffect(() => {
+    console.log("Rows:", rows);
+  }, [page, rows]);
+  
+  useEffect(() => {
+    fetchData(page + 1);
+  }, []);
+  
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr) 20px', gridAutoRows: '50px', gridColumnGap: '10px' }}>
-      <div style={{ fontWeight: 'bold', textAlign: 'left', gridColumn: '1 / 2', padding: '0 10px' }}>Name</div>
-      <div style={{ fontWeight: 'bold', textAlign: 'left', gridColumn: '2 / 3', padding: '0 5px' }}>Email</div>
-      <div style={{ fontWeight: 'bold', textAlign: 'left', gridColumn: '3 / 4', padding: '0 50px' }}>Date Joined</div>
-      <div></div>
-      {users.map((user, index) => (
-        <React.Fragment key={index}>
-          <div style={{ textAlign: 'left', gridColumn: '1 / 2', padding: '0 10px' }}>{user.name}</div>
-          <div style={{ textAlign: 'left', gridColumn: '2 / 3', padding: '0 5px' }}>{user.email}</div>
-          <div style={{ textAlign: 'left', gridColumn: '3 / 4', padding: '0 50px' }}>{user.dateJoined}</div>
-          <IconButton onClick={handleMenuOpen} style={{ transform: "rotate(90deg)", gridColumn: '4 / 5', padding: '0 0px'}} className={classes.iconButton}><MoreVertIcon /></IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
-          >
-            <MenuItem onClick={handleEditAdmin}><EditIcon/> Edit</MenuItem>
-            <MenuItem onClick={handleMenuClose} style={{color: 'red'}}><DeleteIcon/> Delete</MenuItem>
-          </Menu>
-        </React.Fragment>
-      ))}
-      <div style={{ gridColumn: '4 / span 4', display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
-        <button className={classes.iconButton} onClick={handlePreviousPage} disabled={currentPage === 0}><span>&lt;</span></button>
-        <span style={{ margin: '0 20px' }}>Page {currentPage + 1}</span>
-        <button className={classes.iconButton} onClick={handleNextPage} disabled={currentPage === totalPages - 1}><span>&gt;</span></button>
-      </div>
-    </div>
+    <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+      <TableContainer sx={{ maxHeight: 440 }}>
+        <Table stickyHeader aria-label="sticky table">
+          <TableHead>
+            <TableRow>
+              {columns.map((column) => (
+                <TableCell
+                  key={column.id}
+                  align={column.align}
+                  style={{ minWidth: column.minWidth }}
+                >
+                  {column.label}  
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row) => {
+                return (
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.no}>
+                  {columns.map((column) => {
+                    const value = row[column.id];
+                    return (
+                      <TableCell key={column.id} align={column.align}>
+                        <Link to={`/adminInfo/${row.id}`} key={row.id}>
+                          {value.toString()}
+                        </Link>
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+                
+                );
+              })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[2]}
+        component="div"
+        count={pagination.size}
+        rowsPerPage={2}
+        page={page}
+        onPageChange={handleChangePage}
+      />
+    </Paper>
   );
-};
-
-export default AdminList;
+}

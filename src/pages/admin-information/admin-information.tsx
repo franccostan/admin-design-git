@@ -3,6 +3,7 @@ import React from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 // import Grid2 from '@mui/material/Unstable_Grid2'; // Grid version 2
 import {Box,
+  Button,
   ButtonBase,
   Card,
   CardActions,
@@ -16,6 +17,9 @@ import { Edit, Delete } from '@mui/icons-material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import logo from '../../alliance-logo.png';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { useAuthUser } from "react-auth-kit";
+import { useSignOut } from "react-auth-kit";
 
 
 const drawerWidth = 240;
@@ -102,10 +106,12 @@ const AdminInformationScreen = () => {
   const classes = useStyles();
   const [selectedItem, setSelectedItem] = useState('Admin');
   const [status, setStatus] = React.useState('Active');
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setStatus(event.target.value);
   };
+  const { id } = useParams();
+  const auth = useAuthUser();
+  const activeUser = auth()?.user;
 
   const navigate = useNavigate();
 
@@ -148,7 +154,7 @@ const AdminInformationScreen = () => {
             </Grid>
           </Grid>
           <Typography variant="h6" className={classes.welcome} style={{whiteSpace: 'nowrap', color: 'black', fontSize: '16px'}}>
-            Welcome, User
+            Welcome, ${activeUser.user_firstName},
           </Typography>
           <IconButton style={{ width: 48, height: 48 }}>
             <AccountCircleIcon/>
@@ -199,46 +205,7 @@ const AdminInformationScreen = () => {
                       {/* First COLUMN */}
                       <Grid item xs={6} style={{ display: 'flex', justifyContent: 'flex-start', marginTop:'20px'}}>
                         <Stack spacing={1}>
-                        
-                          {/* <Item>
-                          <label style={{textAlign: 'start'}}>First Name</label>
-                            <TextField variant="outlined" style={{ width: "350px" }}/></Item>
                          
-                          <Item>
-                            <TextField
-                            id="outlined-read-only-input"
-                            label="Last Name"
-                            defaultValue="Hello World"
-                            InputProps={{
-                              readOnly: true,
-                            }}
-                            variant="outlined"
-                            style={{ width: "350px" }}
-                            /></Item>
-                          
-                          <Item>
-                            <TextField
-                            id="outlined-read-only-input"
-                            label="Email"
-                            defaultValue="Hello World"
-                            InputProps={{
-                              readOnly: true,
-                            }}
-                            variant="outlined"
-                            style={{ width: "350px" }}
-                            /></Item>
-                          
-                          <Item>
-                            <TextField
-                            id="outlined-read-only-input"
-                            label="Password"
-                            defaultValue="Hello World"
-                            InputProps={{
-                              readOnly: true,
-                            }}
-                            variant="outlined"
-                            style={{ width: "350px" }}
-                            /></Item> */}
                              <Item>
                             <label style={{textAlign: 'start'}}>First Name</label>
                             <TextField variant="outlined" InputProps={{readOnly: true,}} style={{ width: "350px" }} defaultValue="Hello World"/>
@@ -258,51 +225,6 @@ const AdminInformationScreen = () => {
                           
                         </Stack>
                       </Grid>
-                      {/* SECOND COLUMN */}
-                      {/* <Grid item xs={6} style={{ display: 'flex', justifyContent: 'flex-start', marginTop:'20px'}}>
-                        <Stack spacing={1}>
-                        
-                          <Item>
-                            <TextField
-                              id="outlined-select-currency-native"
-                              select
-                              label="Status"
-                              value={status}
-                              onChange={handleChange}
-                              SelectProps={{
-                                native: true,
-                              }}
-                            
-                              variant="outlined"
-                              style={{ width: "350px"}}
-                              >
-                              {statuses.map((option) => (
-                                <option key={option.value} value={option.value}>
-                                  {option.label}
-                                </option>
-                              ))}
-                              </TextField>
-                          </Item>
-                        
-                          <Item>
-                            <button type="submit" style={{ width: "350px" }}>Update Status</button>
-                          </Item>
-                        </Stack>
-                      </Grid> */}
-                      
-                      {/* <Grid container justifyContent="flex-end" style={{marginTop:'60px'}}>
-                        <Grid item>
-      
-                            <Button
-                                    variant="contained"
-                                    color="error"
-                                    type= "submit"
-                                    style={{ width: 200, marginLeft: '10px'}}
-                                    >
-                                    Edit
-                            </Button>
-                          </Grid>
-                      </Grid>*/}
                       
                       </Grid> 
                     

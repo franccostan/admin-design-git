@@ -13,7 +13,7 @@ import AdminScreen from './pages/admin-screen/admin-screen';
 import AdminAddScreen from './pages/admin-add-screen/admin-add-screen';
 import AdminApplicantList from './pages/admin-applicant-list/admin-applicant-list';
 import ApplicantDetails from './pages/admin-applicant-details/admin-applicant-details';
-
+import { RequireAuth } from "react-auth-kit";
 const AppRouter: React.FC = () => {
     return (
       <Router>
@@ -22,14 +22,14 @@ const AppRouter: React.FC = () => {
           <Route path="/forgotPass" element={<ForgotPasswordScreen/>} />
           <Route path="/forgotPassVerify" element={<ForgotPasswordVerificationScreen/>} />
           <Route path="/changePass" element={<ChangePasswordScreen/>} />
-          <Route path="/dashboard" element={<DashBoardScreen/>} />
-          <Route path="/admin-information" element={<AdminInformationScreen/>} />
-          <Route path="/edit-admin-information" element={<EditAdminInformationScreen/>} />
-          <Route path="/adminInfo" element={<AdminInformationScreen/>} />
-          <Route path="/adminScreen" element={<AdminScreen/>} />
-          <Route path="/adminAdd" element={<AdminAddScreen/>} />
-          <Route path="/applicantList" element={<AdminApplicantList/>} />
-          <Route path="/applicantDetails/:id" element={<ApplicantDetails/>} />
+          <Route path="/dashboard" element={<RequireAuth loginPath='/'><DashBoardScreen/></RequireAuth>} />
+          <Route path="/admin-information" element={<RequireAuth loginPath='/'><AdminInformationScreen/></RequireAuth>} />
+          <Route path="/edit-admin-information" element={<RequireAuth loginPath='/'><EditAdminInformationScreen/></RequireAuth>} />
+          <Route path="/adminInfo/:id" element={<RequireAuth loginPath='/'><AdminInformationScreen/></RequireAuth>} />
+          <Route path="/adminScreen" element={<RequireAuth loginPath='/'><AdminScreen/></RequireAuth>} />
+          <Route path="/adminAdd" element={<RequireAuth loginPath='/'><AdminAddScreen/></RequireAuth>} />
+          <Route path="/applicantList" element={<RequireAuth loginPath='/'><AdminApplicantList/></RequireAuth>} />
+          <Route path="/applicantDetails/:id" element={<RequireAuth loginPath='/'><ApplicantDetails/></RequireAuth>} />
         </Routes>
       </Router>
     );

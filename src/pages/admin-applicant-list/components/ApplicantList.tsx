@@ -123,6 +123,9 @@ export default function StickyHeadTable() {
     console.log("Rows:", rows);
   }, [page, rows]);
   
+  useEffect(() => {
+    fetchData(page + 1);
+  }, []);
   
 
   return (
@@ -166,10 +169,10 @@ export default function StickyHeadTable() {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[2]}
+        rowsPerPageOptions={[15]}
         component="div"
         count={pagination.size}
-        rowsPerPage={2}
+        rowsPerPage={15}
         page={page}
         onPageChange={handleChangePage}
       />

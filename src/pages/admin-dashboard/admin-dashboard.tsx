@@ -5,6 +5,7 @@ import logo from '../../alliance-logo.png';
 import { useNavigate } from 'react-router-dom';
 import BarGraph from './BarGraph';
 import RoundedBox from './RoundedBox';
+import { useAuthUser } from "react-auth-kit";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -61,6 +62,9 @@ const DashboardBoardScreen = () => {
     navigate('/applicantList');
   };
 
+  const auth = useAuthUser();
+  const activeUser = auth()?.user;
+
   return (
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.appBar}>
@@ -84,7 +88,7 @@ const DashboardBoardScreen = () => {
             </Grid>
           </Grid>
           <Typography variant="h6" className={classes.welcome} style={{whiteSpace: 'nowrap', color: 'black', fontSize: '16px'}}>
-            Welcome, User
+            Welcome, {activeUser}
           </Typography>
           <IconButton style={{ width: 48, height: 48 }}>
             <AccountCircleIcon/>

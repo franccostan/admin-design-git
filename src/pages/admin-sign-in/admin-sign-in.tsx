@@ -2,16 +2,22 @@ import { useState } from 'react';
 import './admin-sign-in.css';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@mui/material";
-
+import axios from 'axios';
+import {useSignIn} from 'react-auth-kit';
+import { toast } from 'react-toastify';
 
 interface SignInFormData {
-  email: string;
+  username: string;
   password: string;
 }
 
 const SignInScreen = () => {
+  const [isCredentialsValid, setIsCredentialsValid] = useState(true);
+  const signIn = useSignIn();
+  const [isActive, setIsActive] = useState(false);
+
   const [formData, setFormData] = useState<SignInFormData>({
-    email: '',
+    username: '',
     password: '',
   });
 
@@ -26,12 +32,54 @@ const SignInScreen = () => {
     navigate('/dashboard');
   };*/
   
-  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+
+  async function validateUser(username : string) {
+    await axios
+      .get(`http://localhost:55731/api/UserAPI/getUser?id=${username}`)
+      .then((response) => {
+        //setUser(response.data);
+        console.log("Validate User:", response.data);
+        console.log("Is Active:", response.data.user_isActive);
+        if (response.data.user_isActive === true) setIsActive(true);
+      });
+  }
+
+  async function notify() {
+    toast.error("User does not exist", {
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
+  }
+
+  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     //TODO - handles sign in logic
 
-    navigate('/dashboard');
+    try {
+      validateUser(formData.username);
+      //isActive === true ? 
+      await axios.post("http://localhost:55731/api/token", {
+              username: formData.username,
+              password: formData.password,
+            })
+            .then((response) => {
+              console.log(response.status);
+              console.log(response.data);
+              if (response.status === 200) {
+                signIn({
+                  token: response.data.access_token,
+                  expiresIn: response.data.expires_in,
+                  tokenType: "Bearer",
+                  authState: { user: formData.username },
+                });
+                navigate('/dashboard');
+              }
+            });
+    } catch (err) {
+      console.log("Error: ", err);
+      setIsCredentialsValid(false);
+    }
+
   };
 
   const handleForgotPassClick = () => { // redirect to forgot password page
@@ -48,12 +96,12 @@ const SignInScreen = () => {
         <div className='signin-form-subtitle'>Sign in to your account</div>
         <form className='form-group-box' onSubmit={handleFormSubmit}>
           <div className="form-group">
-            <label htmlFor="email">Email Address:</label>
+            <label htmlFor="email">Username:</label>
             <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
+              type="text"
+              id="username"
+              name="username"
+              value={formData.username}
               onChange={handleFormChange}
             />
           </div>
