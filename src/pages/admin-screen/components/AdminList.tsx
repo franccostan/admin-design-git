@@ -34,7 +34,6 @@ interface Data {
   username: string,
   email: string;
   phoneNumber: string;
-  id: string
 }
 
 function createData(
@@ -43,10 +42,9 @@ function createData(
   username: string,
   email: string,
   phoneNumber: string,
-  id: string
 
 ): Data {
-  return { no, name, username, email, phoneNumber, id };
+  return { no, name, username, email, phoneNumber };
 }
 
 async function fetchAdminList({page} : {page : number}): Promise<Data[]> {
@@ -61,7 +59,6 @@ async function fetchAdminList({page} : {page : number}): Promise<Data[]> {
         admin.username,
         admin.email,
         admin.phone,
-        admin.id,
       )
     });
   } catch (error) {
@@ -143,7 +140,7 @@ export default function StickyHeadTable() {
                     const value = row[column.id];
                     return (
                       <TableCell key={column.id} align={column.align}>
-                        <Link to={`/adminInfo/${row.id}`} key={row.id}>
+                        <Link to={`/adminInfo/${row.username}`} key={row.username}>
                           {value.toString()}
                         </Link>
                       </TableCell>

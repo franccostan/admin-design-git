@@ -24,12 +24,12 @@ const AppRouter: React.FC = () => {
           <Route path="/changePass" element={<ChangePasswordScreen/>} />
           <Route path="/dashboard" element={<RequireAuth loginPath='/'><DashBoardScreen/></RequireAuth>} />
           <Route path="/admin-information" element={<RequireAuth loginPath='/'><AdminInformationScreen/></RequireAuth>} />
-          <Route path="/edit-admin-information" element={<RequireAuth loginPath='/'><EditAdminInformationScreen/></RequireAuth>} />
           <Route path="/adminInfo/:id" element={<RequireAuth loginPath='/'><AdminInformationScreen/></RequireAuth>} />
           <Route path="/adminScreen" element={<RequireAuth loginPath='/'><AdminScreen/></RequireAuth>} />
           <Route path="/adminAdd" element={<RequireAuth loginPath='/'><AdminAddScreen/></RequireAuth>} />
           <Route path="/applicantList" element={<RequireAuth loginPath='/'><AdminApplicantList/></RequireAuth>} />
           <Route path="/applicantDetails/:id" element={<RequireAuth loginPath='/'><ApplicantDetails/></RequireAuth>} />
+          <Route path="/edit-admin-information/:id" element={<RequireAuth loginPath='/'><EditAdminInformationScreen/></RequireAuth>} />
         </Routes>
       </Router>
     );

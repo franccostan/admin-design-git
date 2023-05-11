@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import React from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 // import Grid2 from '@mui/material/Unstable_Grid2'; // Grid version 2
+import LogoutIcon from '@mui/icons-material/Logout';
 import {Box,
   Button,
   ButtonBase,
@@ -20,6 +21,8 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { useAuthUser } from "react-auth-kit";
 import { useSignOut } from "react-auth-kit";
+import { getApplicant } from './utils';
+import axios from 'axios';
 
 
 const drawerWidth = 240;
@@ -100,19 +103,60 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+interface Admin {
+  id: string,
+  username: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+}
 
 
 const AdminInformationScreen = () => {
+  const { id } = useParams();
   const classes = useStyles();
-  const [selectedItem, setSelectedItem] = useState('Admin');
+  const [admin, setAdmin] = useState<Admin>({
+    id: '',
+    username: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
+  });
   const [status, setStatus] = React.useState('Active');
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setStatus(event.target.value);
   };
-  const { id } = useParams();
+
   const auth = useAuthUser();
   const activeUser = auth()?.user;
+  const signOut = useSignOut();
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getApplicant({username: id});
+        const { user_id, user_username, user_password, user_firstName, user_lastName, user_email, user_phoneNumber } = data;
+        const adminData: Admin = {
+          id: user_id,
+          username: user_username,
+          password: user_password,
+          firstName: user_firstName,
+          lastName: user_lastName,
+          email: user_email,
+          phoneNumber: user_phoneNumber,
+        };
+        setAdmin(adminData);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }, []);
+  
   const navigate = useNavigate();
 
   const handleDashboard = () => { // redirect to dashboard page
@@ -128,6 +172,30 @@ const AdminInformationScreen = () => {
   const toggleMenu = (event: React.MouseEvent<HTMLElement>) => { //menu anchor element:
     setAnchorEl(event.currentTarget);
   };
+
+  const handleSignOut = () => {
+    signOut();
+    navigate("/");
+  }
+
+  const handleEdit = () => {
+    navigate(`/edit-admin-information/${id}`);
+  }
+
+
+    const handleDelete = async () => {
+      try {
+        await axios.delete(`http://localhost:55731/api/UserAPI/delete?id=${admin.username}`
+        ).then(()=>{
+          navigate('/adminScreen');
+        }).catch((error) => {
+          console.log(error);
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  
 
   return (
 
@@ -157,8 +225,11 @@ const AdminInformationScreen = () => {
             Welcome, ${activeUser.user_firstName},
           </Typography>
           <IconButton style={{ width: 48, height: 48 }}>
-            <AccountCircleIcon/>
-          </IconButton>    
+          <AccountCircleIcon />
+        </IconButton>
+        <IconButton onClick={handleSignOut} style={{ width: 48, height: 48 }}>
+          <LogoutIcon />
+        </IconButton>
         </Toolbar>
       </AppBar>
       {/* End App Bar */}
@@ -177,7 +248,7 @@ const AdminInformationScreen = () => {
                     </Typography> 
                   </Grid> 
                   <Grid item>
-                    <ButtonBase style={{ width: '30px' }} disableRipple>
+                    <ButtonBase onClick={handleEdit} style={{ width: '30px' }} disableRipple>
                       <Edit />
                     </ButtonBase>
                     <ButtonBase style={{ width: '30px' }} disableRipple onClick={toggleMenu}>
@@ -189,7 +260,7 @@ const AdminInformationScreen = () => {
                           {/* Menu content goes here */}
                           <Typography style={{marginBottom: '20px'}} variant='h5'>Delete Admin</Typography> 
                           <Typography style={{fontSize: '20', marginBottom: '20px'}}>Are you sure you want to delete this admin?</Typography> 
-                          <Button style={{backgroundColor: '#d83333', color: 'white'}} >Delete</Button> {/*TODO add delete function*/}
+                          <Button style={{backgroundColor: '#d83333', color: 'white'}} onClick={handleDelete} >Delete</Button> {/*TODO add delete function*/}
                           <br/><Button style={{marginTop: '5px', backgroundColor: '#e0e0e0', boxShadow: '0 2px 5px rgba(0, 0, 0, 0.2)'}} onClick={() => setAnchorEl(null)}>Cancel</Button>
                         </div>
                       </div>
@@ -205,32 +276,33 @@ const AdminInformationScreen = () => {
                       {/* First COLUMN */}
                       <Grid item xs={6} style={{ display: 'flex', justifyContent: 'flex-start', marginTop:'20px'}}>
                         <Stack spacing={1}>
-                         
-                             <Item>
-                            <label style={{textAlign: 'start'}}>First Name</label>
-                            <TextField variant="outlined" InputProps={{readOnly: true,}} style={{ width: "350px" }} defaultValue="Hello World"/>
-                          </Item>
-                          <Item>
-                            <label style={{textAlign: 'start'}}>Last Name</label>
-                            <TextField variant="outlined" InputProps={{readOnly: true,}} style={{ width: "350px" }} defaultValue="Hello World"/>
-                          </Item>
-                          <Item>
-                            <label style={{textAlign: 'start'}}>Email</label>
-                            <TextField variant="outlined" InputProps={{readOnly: true,}} style={{ width: "350px" }} defaultValue="Hello World"/>
+                        <Item>
+                            <label style={{textAlign: 'start'}}>Username</label>
+                            <TextField variant="outlined"InputProps={{readOnly: true,}} style={{ width: "350px" }} value={admin.username}/>
                           </Item>
                           <Item>
                             <label style={{textAlign: 'start'}}>Password</label>
-                            <TextField variant="outlined"InputProps={{readOnly: true,}} style={{ width: "350px" }} defaultValue="Hello World"/>
+                            <TextField variant="outlined"InputProps={{readOnly: true,}} style={{ width: "350px" }} value={admin.password}/>
                           </Item>
-                          
+                             <Item>
+                            <label style={{textAlign: 'start'}}>First Name</label>
+                            <TextField variant="outlined" InputProps={{readOnly: true,}} style={{ width: "350px" }} value={admin.firstName}/>
+                          </Item>
+                          <Item>
+                            <label style={{textAlign: 'start'}}>Last Name</label>
+                            <TextField variant="outlined" InputProps={{readOnly: true,}} style={{ width: "350px" }} value={admin.lastName}/>
+                          </Item>
+                          <Item>
+                            <label style={{textAlign: 'start'}}>Email</label>
+                            <TextField variant="outlined" InputProps={{readOnly: true,}} style={{ width: "350px" }} value={admin.email}/>
+                          </Item>
+                          <Item>
+                            <label style={{textAlign: 'start'}}>Phone Number</label>
+                            <TextField variant="outlined"InputProps={{readOnly: true,}} style={{ width: "350px" }} value={admin.phoneNumber}/>
+                          </Item>
                         </Stack>
                       </Grid>
-                      
                       </Grid> 
-                    
-                        
-                      
-                  
                   </form>
                   {/* END FORM */}
 

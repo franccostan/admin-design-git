@@ -14,6 +14,7 @@ import { getApplicantDetails } from "./utils";
 import { format } from 'date-fns';
 import { useParams } from 'react-router-dom';
 
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
