@@ -15,7 +15,7 @@ import { styled } from '@mui/system';
 import { Edit, Delete } from '@material-ui/icons';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import logo from '../../alliance-logo.png';
-
+import { Button } from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -121,86 +121,81 @@ const AdminInformationScreen = () => {
       </AppBar>
       {/* End App Bar */}
 
-      {/* Information Section */}
-      <Grid container justifyContent="center">
+    {/* Information Section */}
+    <Grid container justifyContent="center">
         <Grid item>
-            <Card style={{ width:'800px', height:'500px',marginTop: 75, padding:'50px'}}>
+            <Card style={{ width:'800px', marginTop: 75, padding:'50px'}}>
               <CardContent>
 
             {/* TITLE */}
                 <Grid container alignItems="center" justifyContent="space-between">
                   <Grid item>
                     <Typography variant='h5'>
-                      Edit Admin information
+                      Admin information
                     </Typography> 
                   </Grid> 
-                  {/* <Grid item>
-                    <ButtonBase style={{ width: '30px' }} disableRipple>
-                      <Edit />
-                    </ButtonBase>
-                    <ButtonBase style={{ width: '30px' }} disableRipple>
-                      <Delete />
-                    </ButtonBase>
-                  </Grid> */}
                 </Grid>
                 <Divider/> 
             {/* END TITLE */}
 
                 {/* FORM */}
                   <form className={classes.root} noValidate autoComplete="off">
-    
-                        <Stack spacing={1} style={{ display: 'flex', justifyContent: 'flex-start', marginTop:'20px'}}>
-                          {/* First Name */}
+                    <Grid container>
+                      {/* First COLUMN */}
+                      <Grid item xs={6} style={{ display: 'flex', justifyContent: 'flex-start', marginTop:'20px'}}>
+                        <Stack spacing={1}>
+                             <Item>
+                            <label style={{textAlign: 'start'}}>First Name</label>
+                            <TextField variant="outlined" InputProps={{readOnly: true,}} style={{ width: "350px" }} defaultValue="Hello World"/>
+                          </Item>
                           <Item>
-                            <TextField
-                            id="outlined-read-only-input"
-                            label="First Name"
-                            defaultValue="Hello World"
-                            variant="outlined"
-                            style={{ width: "350px" }}
-                            /></Item>
-                            {/* Last Name */}
+                            <label style={{textAlign: 'start'}}>Last Name</label>
+                            <TextField variant="outlined" InputProps={{readOnly: true,}} style={{ width: "350px" }} defaultValue="Hello World"/>
+                          </Item>
                           <Item>
-                            <TextField
-                            id="outlined-read-only-input"
-                            label="Last Name"
-                            defaultValue="Hello World"
-                            variant="outlined"
-                            style={{ width: "350px" }}
-                            /></Item>
-                            {/* Email */}
+                            <label style={{textAlign: 'start'}}>Email</label>
+                            <TextField variant="outlined" InputProps={{readOnly: true,}} style={{ width: "350px" }} defaultValue="Hello World"/>
+                          </Item>
                           <Item>
-                            <TextField
-                            id="outlined-read-only-input"
-                            label="Email"
-                            defaultValue="Hello World"
-                            variant="outlined"
-                            style={{ width: "350px" }}
-                            /></Item>
-                            {/* Password */}
-                          <Item>
-                            <TextField
-                            id="outlined-read-only-input"
-                            label="Password"
-                            defaultValue="Hello World"
-                            variant="outlined"
-                            style={{ width: "350px" }}
-                            /></Item>
-                      
+                            <label style={{textAlign: 'start'}}>Password</label>
+                            <TextField variant="outlined"InputProps={{readOnly: true,}} style={{ width: "350px" }} defaultValue="Hello World"/>
+                          </Item>
+                          
                         </Stack>
+                      </Grid>
+              
+                      
+                      <Grid container justifyContent="flex-end" style={{marginTop:'60px'}}>
+                        <Grid item>
+      
+                            <Button
+                                    variant="contained"
+                                    color="error"
+                                    type= "submit"
+                                    style={{ width: 200, marginLeft: '10px'}}
+                                    >
+                                    Back
+                            </Button>
 
+                            <Button
+                                    variant="contained"
+                                    color="error"
+                                    type= "submit"
+                                    style={{ width: 200, marginLeft: '10px'}}
+                                    >
+                                    Edit
+                            </Button>
+                          </Grid>
+                      </Grid>
+                      
+                      </Grid> 
                     
+                        
+                      
+                  
                   </form>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
                   {/* END FORM */}
-                  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <button type="submit" style={{ width: "200px", marginLeft: "10px" }}>Save</button>
-                    <button type="submit" style={{ width: "200px" }}>Back</button>
-                </div>
+
               </CardContent>
           </Card>
       </Grid>
@@ -209,5 +204,6 @@ const AdminInformationScreen = () => {
     </div>
   );
 };
+
 
 export default AdminInformationScreen;

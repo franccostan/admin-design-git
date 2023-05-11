@@ -98,15 +98,17 @@ const AdminScreen = () => {
           </IconButton>    
         </Toolbar>
       </AppBar>
-      <div style={{marginTop: '140px', marginLeft: '275px'}}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <h1 style={{ marginBottom: '20px', fontSize: '30px' }}>Admin List</h1>
-          <button className={classes.button} type="submit" onClick={handleAddAdmin}>Add</button>
+      <Grid container justifyContent="center" style={{marginLeft: '20px'}}>
+        <div style={{marginTop: '140px'}}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <h1 style={{ marginBottom: '20px', fontSize: '30px' }}>Admin List</h1>
+            <button className={classes.button} type="submit" onClick={handleAddAdmin}>Add</button>
+          </div>
+          <div style={{ marginTop: '20px'}}>
+            <AdminList/>
+          </div>
         </div>
-        <div style={{ marginTop: '20px'}}>
-          <AdminList/>
-        </div>
-      </div>
+      </Grid>
     </div>
   );
 };
