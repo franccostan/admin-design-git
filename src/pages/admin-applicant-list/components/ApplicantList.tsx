@@ -61,13 +61,11 @@ function createData(
   return { id, name, email, jobApplied, dateApplied, status };
 }
 
-async function fetchApplicantList(): Promise<Data[]> {
+async function fetchApplicantList({page} : {page : number}): Promise<Data[]> {
   try {
-    const response = await getApplicantList();
-    console.log("Response:", response);
-
-    return response.map((applicant:any) => {
-      console.log("Applicant:", applicant);
+    const response = await getApplicantList({pageNumber: page});
+    
+    return response.data.map((applicant:any) => {
       const formattedDate = format(new Date(applicant.dateTimeApplied), 'MM/dd/yyyy');
       return createData(
         applicant.id.toString(),
@@ -84,30 +82,48 @@ async function fetchApplicantList(): Promise<Data[]> {
   }
 }
 
+async function fetchListInfo({page} : {page : number}): Promise<{ pages: number, size: number }> {
+  try {
+    const response = await getApplicantList({pageNumber : page});
+    return response.pagination;
+  } catch (error) {
+    console.log(error);
+    return { pages: 0, size: 0 };
+  }
+}
+
 
 export default function StickyHeadTable() {
   const [rows, setRows] = useState<Data[]>([]);
+  const [pagination, setPagination] = useState<any>({}); 
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(15);
+  
+  async function fetchData(page: number) {
+    try {
+      console.log("Page:", page);
+      const data = await fetchApplicantList({page});
+      const info = await fetchListInfo({page});
+      console.log("Data from new page:", data);
+      setRows([...data]);
+      setPagination(info);
+    } catch (error) {
+      console.log(error);
+      setRows([]);
+      setPagination({});
+    }
+  }
   
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
+    fetchData(newPage + 1);
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetchApplicantList();
-      console.log("Data:", data);
-      setRows(data);
-      console.log("Rows:", rows);
-    };
-    fetchData();
-  }, []);
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
-  };
+    console.log("Rows:", rows);
+  }, [page, rows]);
+  
+  
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -131,7 +147,7 @@ export default function StickyHeadTable() {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.jobApplied}>
+                  <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                   {columns.map((column) => {
                     const value = row[column.id];
                     return (
@@ -150,13 +166,12 @@ export default function StickyHeadTable() {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10]}
+        rowsPerPageOptions={[2]}
         component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
+        count={pagination.size}
+        rowsPerPage={2}
         page={page}
         onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
       />
     </Paper>
   );

@@ -1,9 +1,8 @@
 import axios from 'axios';
 
-export const getApplicantList = () => {
-  return axios.get(`http://localhost:55731/api/Application/list?Page=1`)
+export const getApplicantList = async ({pageNumber}) => {
+  return await axios.get(`http://localhost:55731/api/Application/list?Page=${pageNumber}`)
     .then((response) => {
-      console.log("First Data", response.data);
       return response.data;
     })
     .catch((error) => {

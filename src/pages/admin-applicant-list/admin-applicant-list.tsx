@@ -90,9 +90,9 @@ const AdminApplicantList = () => {
           </IconButton>    
         </Toolbar>
       </AppBar>
-      <div style={{marginTop: '140px', marginLeft: '150px', display: 'flex', flexDirection:'column'}}>
+      <div className='flex flex-col mx-auto my-36'>
         <div style={{ display: 'flex', alignItems: 'center'}}>
-          <h1 style={{ marginBottom: '20px', fontSize: '30px' }}>Applicant List</h1>
+          <h1 className='text-2xl font-semibold italic text-red-600'>Applicant List</h1>
         </div>
         <div style={{ marginTop: '20px', marginLeft: 'auto', marginRight:'auto', justifyContent:'center', alignItems:'center'}}>
           <StickyHeadTable/>
